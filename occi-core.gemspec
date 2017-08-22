@@ -6,13 +6,13 @@ require 'occi/core/version'
 Gem::Specification.new do |gem|
   gem.name          = 'occi-core'
   gem.version       = Occi::Core::VERSION
-  gem.authors       = ['Boris Parak', 'Florian Feldhaus', 'Piotr Kasprzak']
-  gem.email         = ['parak@cesnet.cz', 'florian.feldhaus@gmail.com', 'piotr.kasprzak@gwdg.de']
+  gem.authors       = ['Boris Parak', 'Zdeněk Šustr']
+  gem.email         = ['parak@cesnet.cz', 'sustr4@cesnet.cz']
   gem.description   = 'The rOCCI toolkit is a collection of classes simplifying implementation ' \
                       'of Open Cloud Computing Interface in Ruby'
-  gem.summary       = 'The rOCCI toolkit'
-  gem.homepage      = 'https://github.com/EGI-FCTF/rOCCI-core'
-  gem.license       = 'Apache License, Version 2.0'
+  gem.summary       = 'The rOCCI core toolkit'
+  gem.homepage      = 'https://github.com/the-rocci-project/rOCCI-core'
+  gem.license       = 'Apache-2.0'
 
   gem.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   gem.require_paths = ['lib']
