@@ -135,11 +135,11 @@ module Occi
            RocciCoreSpec::Renderers::DummyTrueRenderRenderer,
            RocciCoreSpec::Renderers::DummyNoFormatsRenderer,
            RocciCoreSpec::Renderers::DummyEmptyFormatsRenderer,
-           RocciCoreSpec::Renderers::DummyWorkingRenderer]
+           RocciCoreSpec::Renderers::DummyWorkingRenderer].sort { |a, b| b.to_s <=> a.to_s }
         end
 
         it 'lists constants from given namespace' do
-          expect(rfm.constants_from(test_namespace)).to eq expected_consts
+          expect(rfm.constants_from(test_namespace).sort { |a, b| b.to_s <=> a.to_s }).to eq expected_consts
         end
 
         it 'returns empty list for empty namespace' do
@@ -162,11 +162,11 @@ module Occi
            RocciCoreSpec::Renderers::DummyTrueRenderRenderer,
            RocciCoreSpec::Renderers::DummyNoFormatsRenderer,
            RocciCoreSpec::Renderers::DummyEmptyFormatsRenderer,
-           RocciCoreSpec::Renderers::DummyWorkingRenderer]
+           RocciCoreSpec::Renderers::DummyWorkingRenderer].sort { |a, b| b.to_s <=> a.to_s }
         end
 
         it 'returns list of classes' do
-          expect(rfm.classes_from(test_namespace)).to eq expected_classes
+          expect(rfm.classes_from(test_namespace).sort { |a, b| b.to_s <=> a.to_s }).to eq expected_classes
         end
 
         it 'raises error when not passed a Module' do
