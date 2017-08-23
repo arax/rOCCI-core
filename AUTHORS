@@ -2,10 +2,15 @@ rOCCI was originally designed by Florian Feldhaus (GWDG) and Piotr Kasprzak
 (GWDG) in Germany. The project is currently being developed by CESNET, mainly
 for EGI Federated Cloud.
 
+* Boris Parák      - lead developer
+* Zdeněk Šustr     - contributor
+
 Special thanks goes to the following extraordinary individuals, without whom
 rOCCI would not be possible:
 
-* Hayati Bice      - who wrote the initial version of a server for rOCCI
-* Max Günther      - who wrote the EC2 backend
-* Andre Thevapalan - for his input regarding the JSON rendering
-* The OCCI WG      - for developing OCCI
+* Florian Feldhaus - designing and coding early components
+* Piotr Kasprzak   - contributing to early components
+* Hayati Bice      - initial version of a server for rOCCI
+* Max Günther      - initial EC2 backend
+* Andre Thevapalan - input regarding the JSON rendering
+* The OCCI WG      - devising the OCCI standard

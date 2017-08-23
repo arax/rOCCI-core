@@ -5,10 +5,26 @@ rvm:
   - 2.3.4
   - 2.4.1
   - ruby-head
+  - jruby
+  - jruby-head
+
+jdk:
+  - openjdk7
+  - openjdk8
 
 matrix:
+  exclude:
+    - rvm: 2.2.7
+      jdk: openjdk8
+    - rvm: 2.3.4
+      jdk: openjdk8
+    - rvm: 2.4.1
+      jdk: openjdk8
+    - rvm: ruby-head
+      jdk: openjdk8
   allow_failures:
     - rvm: ruby-head
+    - rvm: jruby-head
   fast_finish: true
 
 branches:
@@ -19,8 +35,8 @@ branches:
 env:
   - ON_TRAVIS_CI=yes
 
-install: 'gem install bundler -v ">= 1.15" && bundle install --retry=10'
-
-script: 'bundle exec rake acceptance'
+before_install: gem install bundler -v ">= 1.15"
+install: bundle install --jobs=15
+script: bundle exec rake acceptance
 
 sudo: false
