@@ -6,8 +6,7 @@
 
 ## Requirements
 ### Ruby
-* Ruby 2.2.2+ is required
-* Rubygems
+* Ruby 2.2.2+ or jRuby 9+ (with JDK7 a JDK8)
 
 ## Installation
 ### As a gem
@@ -23,9 +22,6 @@ gem install occi-core --pre
 
 ### From source
 To build and install the bleeding edge version from master
-~~~
-gem install bundler
-~~~
 ~~~
 git clone git://github.com/the-rocci-project/rOCCI-core.git
 cd rOCCI-core
