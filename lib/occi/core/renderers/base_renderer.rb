@@ -32,7 +32,7 @@ module Occi
           # @option options [String] :format (nil) rendering (sub)type
           # @return [String] object rendering
           def render(object, options)
-            logger.debug "#{self} rendering #{object.inspect} with #{options.inspect}"
+            logger.debug { "#{self} rendering #{object.inspect} with #{options.inspect}" }
             candidate = rendering_candidate(object)
             unless candidate
               raise Occi::Core::Errors::RenderingError, "#{object.class} cannot be " \

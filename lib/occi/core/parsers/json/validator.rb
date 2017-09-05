@@ -15,10 +15,6 @@ module Occi
           BASE_SCHEMAS = %i[occi-schema].freeze
 
           class << self
-            # Shortcuts to interesting methods on logger
-            DELEGATED = %i[debug? info? warn? error? fatal?].freeze
-            delegate(*DELEGATED, to: :logger, prefix: true)
-
             # Validates given `json` text with the appropriate schema for `type`.
             # This method raises `Occi::Core::Errors::ParsingError` on failure.
             #
@@ -26,7 +22,7 @@ module Occi
             # @param type [Symbol] schema selector
             # @raise [Occi::Core::Errors::ParsingError] on validation failure
             def validate!(json, type)
-              logger.debug "Validating #{json.inspect} as #{type}" if logger_debug?
+              logger.debug { "Validating #{json.inspect} as #{type}" }
 
               JSON::Validator.schema_reader = JSON::Schema::Reader.new(accept_uri: false, accept_file: true)
               JSON::Validator.validate!(schema_for(type), json, json: true)
@@ -75,7 +71,7 @@ module Occi
                 raise Occi::Core::Errors::ParserError, "Schema type #{type.inspect} is not allowed"
               end
               schema_path = File.join(SCHEMA_REPO, "#{type}.json")
-              logger.debug "Found JSON schema for #{type} in #{schema_path}" if logger_debug?
+              logger.debug { "Found JSON schema for #{type} in #{schema_path}" }
 
               schema_path
             end

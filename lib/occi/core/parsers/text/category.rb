@@ -20,10 +20,6 @@ module Occi
           DEPENDS_KEY = :rel
 
           class << self
-            # Shortcuts to interesting methods on logger
-            DELEGATED = %i[debug? info? warn? error? fatal?].freeze
-            delegate(*DELEGATED, to: :logger, prefix: true)
-
             # Parses category lines into instances of subtypes of `Occi::Core::Category`. Internal references
             # between objects are converted from strings to actual objects. Categories provided in the model
             # will be reused but have to be declared in the parsed model as well. This mechanism can be used to
@@ -41,7 +37,7 @@ module Occi
               end
               dereference_identifiers! model.categories, raw_categories
 
-              logger.debug "Returning (updated) model #{model.inspect}" if logger_debug?
+              logger.debug { "Returning (updated) model #{model.inspect}" }
               model
             end
 
@@ -52,7 +48,7 @@ module Occi
             # @param full [TrueClass, FalseClass] parse full definition, defaults to `true`
             # @return [Hash] raw category hash for further processing
             def plain_category(line, full = true)
-              logger.debug "Parsing line #{line.inspect}" if logger_debug?
+              logger.debug { "Parsing line #{line.inspect}" }
               matched = line.match(CATEGORY_REGEXP)
               unless matched
                 raise Occi::Core::Errors::ParsingError, "#{line.inspect} does not match expectations for Category"
@@ -96,7 +92,7 @@ module Occi
 
               attributes = {}
               line.split.each { |attribute| attributes.merge! plain_attribute(attribute) }
-              logger.debug "Matched attributes as #{attributes.inspect}" if logger_debug?
+              logger.debug { "Matched attributes as #{attributes.inspect}" }
 
               attributes
             end
@@ -112,7 +108,7 @@ module Occi
             def plain_attribute(line)
               # TODO: find a better approach to fixing split
               line.gsub!(/\{(immutable|required)_(required|immutable)\}/, '{\1 \2}')
-              logger.debug "Parsing attribute line #{line.inspect}" if logger_debug?
+              logger.debug { "Parsing attribute line #{line.inspect}" }
 
               matched = line.match(ATTRIBUTE_REGEXP)
               unless matched && matched[1]
