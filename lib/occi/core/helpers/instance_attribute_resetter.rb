@@ -53,7 +53,7 @@ module Occi
           name_cache = attribute_names
           attributes.keep_if do |key, value|
             defined = name_cache.include?(key) && value && value.attribute_definition
-            logger.debug "Removing undefined attribute #{key.inspect} on #{self.class}" unless defined
+            logger.debug { "Removing undefined attribute #{key.inspect} on #{self.class}" } unless defined
             defined
           end
         end
@@ -122,10 +122,10 @@ module Occi
         # @param force [TrueClass, FalseClass] forcibly change attribute value to default
         def reset_attribute(name, definition, force)
           if attributes[name]
-            logger.debug "Setting attribute definition for existing #{name.inspect} on #{self.class}"
+            logger.debug { "Setting attribute definition for existing #{name.inspect} on #{self.class}" }
             attributes[name].attribute_definition = definition
           else
-            logger.debug "Creating attribute definition for new #{name.inspect} on #{self.class}"
+            logger.debug { "Creating attribute definition for new #{name.inspect} on #{self.class}" }
             attributes[name] = Attribute.new(nil, definition)
           end
 

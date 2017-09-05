@@ -1,6 +1,6 @@
 ---
 type: !ruby/class IPAddr
-required: true
+required: false
 mutable: true
 default: ~
 description: IP address (v4 or v6) assigned to this reservation.

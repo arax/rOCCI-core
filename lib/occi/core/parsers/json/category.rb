@@ -27,10 +27,6 @@ module Occi
           DEPENDS_KEY = :depends
 
           class << self
-            # Shortcuts to interesting methods on logger
-            DELEGATED = %i[debug? info? warn? error? fatal?].freeze
-            delegate(*DELEGATED, to: :logger, prefix: true)
-
             # Parses categories into instances of subtypes of `Occi::Core::Category`. Internal references
             # between objects are converted from strings to actual objects. Categories provided in the model
             # will be reused but have to be declared in the parsed model as well.
@@ -41,12 +37,12 @@ module Occi
             def json(body, model)
               parsed = raw_hash(body)
               instantiate_hashes! parsed, model
-              logger.debug "Parsed into raw hashes #{parsed.inspect}" if logger_debug?
+              logger.debug { "Parsed into raw hashes #{parsed.inspect}" }
 
               raw_categories = [parsed[:kinds], parsed[:mixins]].flatten.compact
               dereference_identifiers! model.categories, raw_categories
 
-              logger.debug "Returning (updated) model #{model.inspect}" if logger_debug?
+              logger.debug { "Returning (updated) model #{model.inspect}" }
               model
             end
 
@@ -59,7 +55,7 @@ module Occi
 
             # :nodoc:
             def instatiate_hash(raw, klass)
-              logger.debug "Creating #{klass} from #{raw.inspect}" if logger_debug?
+              logger.debug { "Creating #{klass} from #{raw.inspect}" }
 
               obj = klass.new(
                 term: raw[:term], schema: raw[:scheme], title: raw[:title],
@@ -67,11 +63,11 @@ module Occi
               )
 
               if obj.respond_to?(:location)
-                logger.debug "Setting location #{raw[:location].inspect}" if logger_debug?
+                logger.debug { "Setting location #{raw[:location].inspect}" }
                 obj.location = handle(Occi::Core::Errors::ParsingError) { URI.parse(raw[:location]) }
               end
 
-              logger.debug "Created category #{obj.inspect}" if logger_debug?
+              logger.debug { "Created category #{obj.inspect}" }
               obj
             end
 
@@ -81,7 +77,7 @@ module Occi
 
               attr_defs = {}
               raw.each_pair do |k, v|
-                logger.debug "Creating AttributeDefinition for #{k.inspect} from #{v.inspect}" if logger_debug?
+                logger.debug { "Creating AttributeDefinition for #{k.inspect} from #{v.inspect}" }
                 def_hsh = typecast(v)
                 unless def_hsh[:type]
                   raise Occi::Core::Errors::ParsingError, "Attribute #{k.to_s.inspect} has no type"
@@ -105,14 +101,14 @@ module Occi
 
             # :nodoc:
             def lookup_applies_references!(mixin, derefd, parsed_rel)
-              logger.debug "Looking up applies from #{parsed_rel.inspect}" if logger_debug?
+              logger.debug { "Looking up applies from #{parsed_rel.inspect}" }
               return if parsed_rel.blank?
               parsed_rel.each { |kind| mixin.applies << first_or_die(derefd, kind) }
             end
 
             # :nodoc:
             def lookup_depends_references!(mixin, derefd, parsed_rel)
-              logger.debug "Looking up depens from #{parsed_rel.inspect}" if logger_debug?
+              logger.debug { "Looking up depens from #{parsed_rel.inspect}" }
               return if parsed_rel.blank?
               parsed_rel.each { |mxn| mixin.depends << first_or_die(derefd, mxn) }
             end

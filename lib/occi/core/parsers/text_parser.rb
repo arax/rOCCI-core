@@ -50,7 +50,7 @@ module Occi
         # @return [Set] set of instances
         def entities(body, headers, expectation = nil)
           expectation ||= Occi::Core::Entity
-          logger.debug "Parsing #{expectation} from #{body.inspect} and #{headers.inspect}" if logger_debug?
+          logger.debug { "Parsing #{expectation} from #{body.inspect} and #{headers.inspect}" }
 
           entity_parser = Text::Entity.new(model: model)
           entity = entity_parser.plain transform(body, headers)
@@ -68,7 +68,7 @@ module Occi
         # @param headers [Hash] raw headers as provided by the transport protocol
         # @return [Set] set of parsed instances
         def action_instances(body, headers)
-          logger.debug "Parsing Occi::Core::ActionInstance from #{body.inspect} and #{headers.inspect}" if logger_debug?
+          logger.debug { "Parsing Occi::Core::ActionInstance from #{body.inspect} and #{headers.inspect}" }
           entity_parser = Text::Entity.new(model: model)
           tformed = transform(body, headers)
 
@@ -88,7 +88,7 @@ module Occi
         # @return [Set] set of instances
         def categories(body, headers, expectation = nil)
           expectation ||= Occi::Core::Category
-          logger.debug "Parsing #{expectation} from #{body.inspect} and #{headers.inspect}" if logger_debug?
+          logger.debug { "Parsing #{expectation} from #{body.inspect} and #{headers.inspect}" }
 
           cats = transform(body, headers).map do |line|
             cat = Text::Category.plain_category(line, false)
@@ -119,9 +119,7 @@ module Occi
           # @param model [Occi::Core::Model] `Model`-like instance to be populated (may contain existing categories)
           # @return [Occi::Core::Model] model instance filled with parsed categories
           def model(body, headers, media_type, model)
-            if logger_debug?
-              logger.debug "Parsing model from #{media_type.inspect} in #{body.inspect} and #{headers.inspect}"
-            end
+            logger.debug { "Parsing model from #{media_type.inspect} in #{body.inspect} and #{headers.inspect}" }
 
             if HEADERS_TEXT_TYPES.include? media_type
               Text::Category.plain transform_headers(headers), model
@@ -139,9 +137,7 @@ module Occi
           # @param media_type [String] media type string as provided by the transport protocol
           # @return [Array] list of extracted URIs
           def locations(body, headers, media_type)
-            if logger_debug?
-              logger.debug "Parsing locations from #{media_type.inspect} in #{body.inspect} and #{headers.inspect}"
-            end
+            logger.debug { "Parsing locations from #{media_type.inspect} in #{body.inspect} and #{headers.inspect}" }
 
             if URI_LIST_TYPES.include? media_type
               Text::Location.uri_list transform_body(body)
@@ -170,7 +166,7 @@ module Occi
           # @param headers [Hash] hash with raw header key-value pairs
           # @return [Array] an array of body-like lines
           def transform_headers(headers)
-            logger.debug "Transforming headers #{headers.inspect}" if logger_debug?
+            logger.debug { "Transforming headers #{headers.inspect}" }
             unify_headers(
               canonize_headers(
                 normalize_headers(headers)
@@ -192,7 +188,7 @@ module Occi
             headers.delete_if { |_k, v| v.blank? }            # remove pairs with empty values
             headers.keep_if { |k, _v| OCCI_KEYS.include?(k) } # drop non-OCCI pairs
 
-            logger.debug "Normalized headers #{headers.inspect}" if logger_debug?
+            logger.debug { "Normalized headers #{headers.inspect}" }
             headers
           end
 
@@ -210,7 +206,7 @@ module Occi
               canonical[pref.first] = [canonize_header_value(value)].flatten
             end
 
-            logger.debug "Canonized headers #{canonical.inspect}" if logger_debug?
+            logger.debug { "Canonized headers #{canonical.inspect}" }
             canonical
           end
 
@@ -237,7 +233,7 @@ module Occi
               lines << v.map { |val| "#{k}: #{val}" }
             end
 
-            logger.debug "Unified headers #{lines.inspect}" if logger_debug?
+            logger.debug { "Unified headers #{lines.inspect}" }
             lines.flatten.sort
           end
 

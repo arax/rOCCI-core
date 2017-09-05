@@ -154,7 +154,7 @@ module Occi
         begin
           valid! value
         rescue Occi::Core::Errors::AttributeValidationError => ex
-          logger.debug "AttributeValidation: #{ex.message}"
+          logger.debug { "AttributeValidation: #{ex.message}" }
           return false
         end
 
