@@ -14,10 +14,6 @@ module Occi
           include Helpers::ErrorHandler
           extend Helpers::RawJsonParser
 
-          # Shortcuts to interesting methods on logger
-          DELEGATED = %i[debug? info? warn? error? fatal?].freeze
-          delegate(*DELEGATED, to: :logger, prefix: true)
-
           # Constants
           SINGLE_INSTANCE_TYPES = %i[resource link].freeze
           MULTI_INSTANCE_TYPES  = %i[entity-collection].freeze
@@ -67,14 +63,14 @@ module Occi
           # @param hash [Hash] Hash body for parsing
           # @return [Array] constructed instances
           def json_single(hash)
-            logger.debug "Converting #{hash.inspect} into a single instance" if logger_debug?
+            logger.debug { "Converting #{hash.inspect} into a single instance" }
             instance = @_ib.get hash[:kind], mixins: lookup(hash[:mixins]), actions: lookup(hash[:actions])
 
             set_attributes! instance, hash[:attributes]
             set_links! instance, hash[:links] if instance.respond_to?(:links)
             set_target! instance, hash[:target] if instance.respond_to?(:target)
 
-            logger.debug "Created instance #{instance.inspect}" if logger_debug?
+            logger.debug { "Created instance #{instance.inspect}" }
             Set.new [instance]
           end
 
@@ -85,12 +81,12 @@ module Occi
           def json_collection(hash)
             all = []
 
-            logger.debug "Converting #{hash.inspect} into multiple instances" if logger_debug?
+            logger.debug { "Converting #{hash.inspect} into multiple instances" }
             all.concat hash[:resources] if hash[:resources]
             all.concat hash[:links] if hash[:links]
             all.map! { |a| json_single(a) }
 
-            logger.debug "Created instances #{all.inspect}" if logger_debug?
+            logger.debug { "Created instances #{all.inspect}" }
             Set.new(all).flatten
           end
 
@@ -107,7 +103,7 @@ module Occi
           def set_attributes!(instance, hash)
             return if hash.blank?
             hash.each_pair do |name, value|
-              logger.debug "Setting attribute #{name} to #{value.inspect}" if logger_debug?
+              logger.debug { "Setting attribute #{name} to #{value.inspect}" }
               attribute = instance.attributes[name.to_s]
               unless attribute
                 raise Occi::Core::Errors::ParsingError,
@@ -138,7 +134,7 @@ module Occi
             end
             return value unless TYPECASTER_HASH.key?(type)
 
-            logger.debug "Typecasting value #{value.inspect} to #{type}" if logger_debug?
+            logger.debug { "Typecasting value #{value.inspect} to #{type}" }
             TYPECASTER_HASH[type].call(value)
           end
 

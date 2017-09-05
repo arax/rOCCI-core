@@ -13,10 +13,6 @@ module Occi
           include Helpers::ArgumentValidator
           include Helpers::ErrorHandler
 
-          # Shortcuts to interesting methods on logger
-          DELEGATED = %i[debug? info? warn? error? fatal?].freeze
-          delegate(*DELEGATED, to: :logger, prefix: true)
-
           # Regexp constants
           ATTRIBUTE_REGEXP = /#{Constants::REGEXP_ATTRIBUTE}/
           LINK_REGEXP      = /#{Constants::REGEXP_LINK}/
@@ -62,7 +58,7 @@ module Occi
             cats = plain_categories(lines)
             kind = cats.detect { |c| c.is_a?(Occi::Core::Kind) }
             raise Occi::Core::Errors::ParsingError, 'Entity does not specify its kind' unless kind
-            logger.debug "Identified entity kind #{kind.inspect}" if logger_debug?
+            logger.debug { "Identified entity kind #{kind.inspect}" }
 
             entity = @_ib.build(kind.identifier)
             cats.each { |cat| cat.is_a?(Occi::Core::Mixin) && entity << cat }
@@ -70,7 +66,7 @@ module Occi
             plain_attributes! lines, entity.attributes
             plain_links! lines, entity
 
-            logger.debug "Created instance #{entity.inspect}" if logger_debug?
+            logger.debug { "Created instance #{entity.inspect}" }
             entity
           end
 
@@ -116,7 +112,7 @@ module Occi
           # @param line [String] line containing a single entity attribute
           # @return [Array] two-element array with name and value of the attribute
           def raw_attribute(line)
-            logger.debug "Parsing attribute line #{line.inspect}" if logger_debug?
+            logger.debug { "Parsing attribute line #{line.inspect}" }
             matched = line.match(ATTRIBUTE_REGEXP)
             unless matched
               raise Occi::Core::Errors::ParsingError, "#{line.inspect} does not match expectations for Attribute"
@@ -133,7 +129,7 @@ module Occi
           def plain_links!(lines, entity)
             lines.each do |line|
               next unless line.start_with?(TextParser::LINK_KEYS.first)
-              logger.debug "Parsing link line #{line.inspect}" if logger_debug?
+              logger.debug { "Parsing link line #{line.inspect}" }
 
               matched = line.match(LINK_REGEXP)
               unless matched
@@ -196,11 +192,11 @@ module Occi
             target_kind = handle(Occi::Core::Errors::ParsingError) { model.find_by_identifier!(md[:rel]) }
             link = @_ib.build(categories.shift, target_kind: target_kind)
             categories.each do |mxn|
-              logger.debug "Adding mixin #{mxn.inspect} to link instance" if logger_debug?
+              logger.debug { "Adding mixin #{mxn.inspect} to link instance" }
               link << handle(Occi::Core::Errors::ParsingError) { model.find_by_identifier!(mxn) }
             end
 
-            logger.debug "Created link instance #{link.inspect} from #{md.inspect}" if logger_debug?
+            logger.debug { "Created link instance #{link.inspect} from #{md.inspect}" }
             link
           end
 
@@ -212,7 +208,7 @@ module Occi
             if md[:attributes].blank?
               raise Occi::Core::Errors::ParsingError, "Link #{link.id} is missing attribute information"
             end
-            logger.debug "Parsing inline link attributes from line #{md[:attributes].inspect}" if logger_debug?
+            logger.debug { "Parsing inline link attributes from line #{md[:attributes].inspect}" }
 
             regexp = Regexp.new "(\\s*#{Constants::REGEXP_ATTRIBUTE_REPR})"
             line = md[:attributes].strip.gsub(/^;\s*/, '')
@@ -234,7 +230,7 @@ module Occi
               raise Occi::Core::Errors::ParsingError, 'Cannot typecast (un)set value to (un)set type'
             end
 
-            logger.debug "Typecasting value #{value.inspect} to #{type}" if logger_debug?
+            logger.debug { "Typecasting value #{value.inspect} to #{type}" }
             self.class.typecaster[type].call(value)
           end
 
