@@ -12,7 +12,7 @@ module Occi
         class Link < Base
           include Instance
 
-          # TODO: this is a hack for typing `source` on known Compute links
+          # Note: this is a hack for typing `source` on known Compute links
           COMPUTE_KIND  = 'http://schemas.ogf.org/occi/infrastructure#compute'.freeze
           COMPUTY_LINKS = %w[
             http://schemas.ogf.org/occi/infrastructure#networkinterface
@@ -32,10 +32,11 @@ module Occi
           def typed_uri_hash(attribute, type)
             hsh = { location: attribute.to_s }
 
-            if type == :target && object_respond_to?(:rel)
-              hsh[:kind] = object_rel.to_s
-            elsif type == :source && COMPUTY_LINKS.include?(object_kind.to_s)
-              # TODO: fix this mess
+            known_kind = object_send("#{type}_kind")
+            hsh[:kind] = known_kind.identifier if known_kind
+
+            # Note: this is a hack for typing `source` on known Compute links
+            if hsh[:kind].blank? && type == :source && COMPUTY_LINKS.include?(object_kind.identifier)
               hsh[:kind] = COMPUTE_KIND
             end
 
