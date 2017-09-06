@@ -3,6 +3,7 @@
 [![Gemnasium](https://img.shields.io/gemnasium/the-rocci-project/rOCCI-core.svg?style=flat-square)](https://gemnasium.com/the-rocci-project/rOCCI-core)
 [![Gem](https://img.shields.io/gem/v/occi-core.svg?style=flat-square)](https://rubygems.org/gems/occi-core)
 [![Code Climate](https://img.shields.io/codeclimate/github/the-rocci-project/rOCCI-core.svg?style=flat-square)](https://codeclimate.com/github/the-rocci-project/rOCCI-core)
+[![DOI](https://zenodo.org/badge/101084614.svg)](https://zenodo.org/badge/latestdoi/101084614)
 
 ## Requirements
 ### Ruby
