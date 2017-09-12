@@ -2,3 +2,7 @@ Style/RescueModifier:
   Exclude:
   - 'lib/occi/core/parsers/json/entity.rb'
   - 'lib/occi/core/parsers/text/entity.rb'
+
+RSpec/ExpectInHook:
+  Exclude:
+  - 'spec/occi/core/**/*'
