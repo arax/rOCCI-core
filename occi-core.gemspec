@@ -28,7 +28,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'simplecov', '>= 0.11', '< 1'
   gem.add_development_dependency 'pry', '>= 0.10', '< 1'
   gem.add_development_dependency 'rubocop', '>= 0.32', '< 1'
-  gem.add_development_dependency 'rubocop-rspec', '>= 1.5', '< 2'
   gem.add_development_dependency 'rubygems-tasks', '>= 0.2', '< 1'
   gem.add_development_dependency 'yard', '>= 0.8', '< 1'
   gem.add_development_dependency 'fasterer', '>= 0.3.2', '< 0.4'
