@@ -60,7 +60,7 @@ module Occi
       let(:all) { Set.new([root_kind, kind, mixin, action]) }
 
       before do
-        attributes.keys.each do |attrib|
+        attributes.each_key do |attrib|
           allow(attributes[attrib]).to receive(:default)
           allow(attributes[attrib]).to receive(:valid!)
         end

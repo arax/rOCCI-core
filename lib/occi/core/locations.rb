@@ -61,7 +61,7 @@ module Occi
       def valid?
         valid!
         true
-      rescue => ex
+      rescue StandardError => ex
         logger.warn "Location invalid: #{ex.message}"
         false
       end
@@ -73,7 +73,7 @@ module Occi
       # @raise [Occi::Core::Errors::LocationValidationError] if some location is invalid
       def valid!
         map! { |uri| return_or_convert uri }
-      rescue => ex
+      rescue StandardError => ex
         raise Occi::Core::Errors::LocationValidationError, ex.message
       end
       alias convert! valid!

@@ -9,7 +9,7 @@ module Occi
         # :nodoc:
         def raw_hash(body)
           JSON.parse body, symbolize_names: true
-        rescue => ex
+        rescue StandardError => ex
           raise Occi::Core::Errors::ParsingError, "JSON parsing failed: #{ex.message}"
         end
       end

@@ -16,7 +16,8 @@ module Occi
       include Helpers::ArgumentValidator
       include Helpers::InstanceAttributeResetter
 
-      attr_accessor :action, :attributes
+      attr_reader :action
+      attr_accessor :attributes
 
       ERRORS = [
         Occi::Core::Errors::AttributeValidationError,
@@ -133,7 +134,7 @@ module Occi
       # :nodoc:
       def valid_attribute!(name, attribute)
         attribute.valid!
-      rescue => ex
+      rescue StandardError => ex
         raise ex, "Attribute #{name.inspect} invalid: #{ex}", ex.backtrace
       end
     end
