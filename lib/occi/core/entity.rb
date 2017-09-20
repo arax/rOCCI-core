@@ -24,8 +24,9 @@ module Occi
       include Helpers::InstanceAttributeResetter
       include Helpers::MixinSelector
 
-      attr_accessor :kind, :actions, :attributes, :mixins
+      attr_reader :kind, :mixins
       attr_writer :location
+      attr_accessor :actions, :attributes
 
       ERRORS = [
         Occi::Core::Errors::AttributeValidationError, Occi::Core::Errors::AttributeDefinitionError,
@@ -295,7 +296,7 @@ module Occi
       #
       # @return [NilClass] when entity instance is valid
       def valid!
-        %i[kind location attributes mixins actions].each do |attr|
+        %i[kind attributes mixins actions].each do |attr|
           unless send(attr)
             raise Occi::Core::Errors::InstanceValidationError,
                   "Missing valid #{attr}"
@@ -334,7 +335,7 @@ module Occi
       # :nodoc:
       def valid_attribute!(name, attribute)
         attribute.valid!
-      rescue => ex
+      rescue StandardError => ex
         raise ex, "Attribute #{name.inspect} invalid: #{ex}", ex.backtrace
       end
 
@@ -376,8 +377,7 @@ module Occi
       # @return [URI] generated location
       def generate_location
         if id.blank?
-          raise Occi::Core::Errors::MandatoryArgumentError,
-                'Cannot generate default location without an `id`'
+          raise Occi::Core::Errors::MandatoryArgumentError, 'Cannot generate default location without an `id`'
         end
         URI.parse "#{kind.location}#{id}"
       end

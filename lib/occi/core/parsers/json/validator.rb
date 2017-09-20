@@ -11,7 +11,7 @@ module Occi
 
           # Repository constants
           SCHEMA_DIR   = 'validator'.freeze
-          SCHEMA_REPO  = File.join(File.expand_path(File.dirname(__FILE__)), SCHEMA_DIR)
+          SCHEMA_REPO  = File.join(__dir__, SCHEMA_DIR)
           BASE_SCHEMAS = %i[occi-schema].freeze
 
           class << self

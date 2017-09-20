@@ -35,11 +35,11 @@ module Occi
       before do
         allow(link_kind).to receive(:attributes).and_return(link_attributes)
         allow(link_kind).to receive(:location).and_return(URI.parse('/kind/'))
-        link_attributes.keys.each { |attrib| allow(link_attributes[attrib]).to receive(:default) }
+        link_attributes.each_key { |attrib| allow(link_attributes[attrib]).to receive(:default) }
 
         allow(kind).to receive(:attributes).and_return(attributes)
         allow(kind).to receive(:location).and_return(URI.parse('/kind/'))
-        attributes.keys.each { |attrib| allow(attributes[attrib]).to receive(:default) }
+        attributes.each_key { |attrib| allow(attributes[attrib]).to receive(:default) }
       end
 
       RES_ATTRS = [:summary].freeze
