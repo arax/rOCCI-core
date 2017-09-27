@@ -4,4 +4,4 @@ required: false
 mutable: true
 default: ~
 description: Compute FQDN.
-pattern: ~
+pattern: !ruby/regexp '/^.+$/'

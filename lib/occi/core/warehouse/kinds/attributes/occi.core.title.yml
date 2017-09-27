@@ -4,4 +4,4 @@ required: false
 mutable: true
 default: ~
 description: Title assigned to this entity sub-type instance.
-pattern: !ruby/regexp '/^[[:word:]]([[:blank:]]|[[:word:]]|\-)*$/'
+pattern: !ruby/regexp '/^.+$/'
