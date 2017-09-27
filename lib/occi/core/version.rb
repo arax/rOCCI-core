@@ -2,7 +2,7 @@ module Occi
   module Core
     MAJOR_VERSION = 5                # Major update constant
     MINOR_VERSION = 0                # Minor update constant
-    PATCH_VERSION = 1                # Patch/Fix version constant
+    PATCH_VERSION = 2                # Patch/Fix version constant
     STAGE_VERSION = nil              # use `nil` for production releases
 
     unless defined?(::Occi::Core::VERSION)
