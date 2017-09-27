@@ -1,4 +1,10 @@
 
+5.0.2 / 2017-09-27
+==================
+
+  * Relaxing strict Regexp patterns on attrs
+  * DOI for releases from ZENODO
+
 5.0.1 / 2017-09-05
 ==================
 
