@@ -488,7 +488,13 @@ module Occi
 
       describe '#valid!' do
         context 'with missing required attributes' do
-          before { ent.id = nil }
+          before do
+            expect(attributes[attribute_title]).to receive(:valid!)
+            expect(attributes[attribute_id])
+              .to receive(:valid!)
+              .and_raise(Occi::Core::Errors::MandatoryArgumentError)
+            ent.id = nil
+          end
 
           it 'raises error' do
             expect { ent.valid! }.to raise_error(Occi::Core::Errors::MandatoryArgumentError)

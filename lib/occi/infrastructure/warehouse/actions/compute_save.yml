@@ -16,4 +16,4 @@ attributes:
     mutable: true
     default: ~
     description: Name of the copy
-    pattern: !ruby/regexp '/^[[:alnum:]]+$/'
+    pattern: !ruby/regexp '/^.+$/'

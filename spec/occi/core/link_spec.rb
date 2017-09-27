@@ -25,7 +25,7 @@ module Occi
       before do
         allow(kind).to receive(:attributes).and_return(attributes)
         allow(kind).to receive(:location).and_return(URI.parse('/kind/'))
-        attributes.keys.each { |attrib| allow(attributes[attrib]).to receive(:default) }
+        attributes.each_key { |attrib| allow(attributes[attrib]).to receive(:default) }
       end
 
       LNK_ATTRS = %i[source target rel].freeze

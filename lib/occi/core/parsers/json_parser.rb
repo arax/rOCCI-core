@@ -88,7 +88,7 @@ module Occi
             begin
               Json::Validator.validate! body, type
               found = type
-            rescue => ex
+            rescue StandardError => ex
               logger.debug { "Moving on, body does not contain valid #{type} - #{ex.message.inspect}" }
             end
           end

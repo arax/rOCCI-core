@@ -4,4 +4,4 @@ required: false
 mutable: false
 default: ~
 description: Human-readable description of the current state.
-pattern: ~
+pattern: !ruby/regexp '/^.*$/'

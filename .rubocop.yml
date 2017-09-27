@@ -1,4 +1,3 @@
-require: rubocop-rspec
 inherit_from: .rubocop_todo.yml
 
 Metrics/ModuleLength:
@@ -44,7 +43,7 @@ Style/NilComparison:
   Exclude:
   - 'spec/occi/core/category_spec.rb'
 
-Style/FileName:
+Naming/FileName:
   Exclude:
   - 'lib/occi/infrastructure-ext.rb'
 
@@ -52,16 +51,6 @@ Style/YodaCondition:
   Exclude:
   - 'lib/occi/core/helpers/parser_dereferencer.rb'
 
-RSpec/MultipleExpectations:
-  Max: 5
-
-RSpec/MessageSpies:
-  EnforcedStyle: receive
-
-RSpec/SubjectStub:
+Lint/Void:
   Exclude:
-    - 'spec/**/*'
-
-RSpec/MessageExpectation:
-  Exclude:
-    - 'spec/**/*'
+  - '**/*'

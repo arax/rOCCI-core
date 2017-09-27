@@ -14,7 +14,7 @@ module Occi
           raise 'You have to provide a block' unless block_given?
           begin
             yield # do whatever you need to do
-          rescue => ex
+          rescue StandardError => ex
             raise klass, ex.message
           end
         end

@@ -4,4 +4,4 @@ required: false
 mutable: false
 default: ~
 description: Network interface name.
-pattern: !ruby/regexp '/^[[:alnum:]]+$/'
+pattern: !ruby/regexp '/^.+$/'
