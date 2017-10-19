@@ -1,0 +1,9 @@
+---
+term: user_data
+schema: http://schemas.openstack.org/compute/instance#
+title: OCCI contextualization data to be injected into a compute instance
+attributes:
+  - org.openstack.compute.user_data
+location: /mixin/old_user_data
+applies:
+  - http://schemas.ogf.org/occi/infrastructure#compute
