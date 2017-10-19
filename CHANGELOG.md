@@ -1,4 +1,9 @@
 
+5.0.3 / 2017-10-19
+==================
+  * Added missing support for legacy context mixins
+
+
 5.0.2 / 2017-09-27
 ==================
 
