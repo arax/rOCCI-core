@@ -1,0 +1,10 @@
+---
+term: public_key
+schema: http://schemas.openstack.org/instance/credentials#
+title: OCCI SSH public key to be injected into a compute instance
+attributes:
+  - org.openstack.credentials.publickey.name
+  - org.openstack.credentials.publickey.data
+location: /mixin/public_key
+applies:
+  - http://schemas.ogf.org/occi/infrastructure#compute
