@@ -82,7 +82,8 @@ module Occi
                 unless def_hsh[:type]
                   raise Occi::Core::Errors::ParsingError, "Attribute #{k.to_s.inspect} has no type"
                 end
-                attr_defs[k.to_s] = Occi::Core::AttributeDefinition.new def_hsh
+                fix_links!(k, def_hsh)
+                attr_defs[k.to_s] = Occi::Core::AttributeDefinition.new(def_hsh)
               end
 
               attr_defs
@@ -113,7 +114,14 @@ module Occi
               parsed_rel.each { |mxn| mixin.depends << first_or_die(derefd, mxn) }
             end
 
-            private :lookup_applies_references!, :lookup_depends_references!
+            # :nodoc:
+            def fix_links!(name, definition_hash)
+              return unless %w[occi.core.source occi.core.target].include?(name.to_s)
+              logger.debug { "Forcing attribute type on #{name.to_s.inspect} from #{definition_hash[:type]} to URI" }
+              definition_hash[:type] = URI # forcing 'string' to URI for validation purposes
+            end
+
+            private :lookup_applies_references!, :lookup_depends_references!, :fix_links!
           end
         end
       end
