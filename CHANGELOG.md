@@ -1,4 +1,9 @@
 
+5.0.4 / 2017-11-10
+==================
+
+  * Forcing attribute type on occi.core.{source,target} to URI
+
 5.0.3 / 2017-10-19
 ==================
   * Added missing support for legacy context mixins
