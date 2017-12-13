@@ -233,9 +233,7 @@ module Occi
       #
       # @param action [Occi::Core::Action] action to be removed
       def remove_action(action)
-        unless action
-          raise Occi::Core::Errors::MandatoryArgumentError, 'Cannot remove a non-existent action'
-        end
+        raise Occi::Core::Errors::MandatoryArgumentError, 'Cannot remove a non-existent action' unless action
         actions.delete action
       end
 
