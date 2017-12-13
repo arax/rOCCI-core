@@ -79,9 +79,7 @@ module Occi
               raw.each_pair do |k, v|
                 logger.debug { "Creating AttributeDefinition for #{k.inspect} from #{v.inspect}" }
                 def_hsh = typecast(v)
-                unless def_hsh[:type]
-                  raise Occi::Core::Errors::ParsingError, "Attribute #{k.to_s.inspect} has no type"
-                end
+                raise Occi::Core::Errors::ParsingError, "Attribute #{k.to_s.inspect} has no type" unless def_hsh[:type]
                 fix_links!(k, def_hsh)
                 attr_defs[k.to_s] = Occi::Core::AttributeDefinition.new(def_hsh)
               end
@@ -118,7 +116,8 @@ module Occi
             def fix_links!(name, definition_hash)
               return unless %w[occi.core.source occi.core.target].include?(name.to_s)
               logger.debug { "Forcing attribute type on #{name.to_s.inspect} from #{definition_hash[:type]} to URI" }
-              definition_hash[:type] = URI # forcing 'string' to URI for validation purposes
+              # forcing 'string' to URI for validation purposes
+              definition_hash[:type] = URI
             end
 
             private :lookup_applies_references!, :lookup_depends_references!, :fix_links!

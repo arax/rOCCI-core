@@ -31,9 +31,7 @@ module Occi
             if object_resources.any?
               hsh[:resources] = object_resources.collect { |r| Resource.new(r, options).render_hash }
             end
-            if object_links.any?
-              hsh[:links] = object_links.collect { |r| Link.new(r, options).render_hash }
-            end
+            hsh[:links] = object_links.collect { |r| Link.new(r, options).render_hash } if object_links.any?
             hsh
           end
 
